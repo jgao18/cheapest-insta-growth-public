@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div id="instagramAccountStatus" class="form-group">
+    <p><b>Instagram Account Status:</b>
+      <% if (locals.loginStatusColor == "green") { %>
+        <i class="fa fa-play-circle" style="font-size:25px;color:#01FF01"></i>
+      <% } else if (locals.loginStatusColor == "yellow") { %>
+        <i class="c-inline-spinner-yellow"></i>
+      <% } else { %>
+        <i class="fa fa-stop-circle" style="font-size:25px;color:red"></i>
+      <% } %> <%= locals.loginStatus %>
+    </p>
+  </div>
+</html>

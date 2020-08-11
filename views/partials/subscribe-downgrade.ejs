@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div class="row">
+    <div class="col-lg-6 col-md-6">
+      <div class="box featured wow fadeInLeft">
+        <h3>Downgrade to Basic Subscription</h3>
+        <h4><sup>$</sup>5<span> / month</span></h4>
+        <ul>
+          <li><i class="ion-android-checkmark-circle"></i> Set up to 5 hashtags to track</li>
+          <li><i class="ion-android-checkmark-circle"></i> Auto-like up to 70 posts/hr</li>
+          <li><i class="ion-android-checkmark-circle"></i> We'll automatically cancel your old plan</li>
+          <li><strike><i class="fa fa-times-circle" style="color:#dc3545"></i> Auto-follow up to 20 users/hr</strike></li>
+          <li><strike><i class="fa fa-times-circle" style="color:#dc3545"></i> Auto-Unfollow up to 20 users/hr</strike></li>
+        </ul>
+        <div style="text-align:center">
+          <input id="paypalButton" onclick="location.href='subscribePaypalBasic'; showSpinner();"  type="image" src="img/paypal-button.png" /><br/>
+          <input id="paypalButton" onclick="location.href='subscribePaypalBasic'; showSpinner();"  type="image" src="img/paypal-cc-button.png" />
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <div class="box avoid wow fadeInUp">
+        <h3>Unsubscribe</h3>
+        <p style="text-align:left;font-size:18px">You will lose access to:</p>
+        <ul>
+          <li><i class="fa fa-times-circle" style="color:#dc3545"></i> Set up to 5 hashtags to track</li>
+          <li><i class="fa fa-times-circle" style="color:#dc3545"></i> Auto-like up to 70 posts/hr</li>
+          <li><i class="fa fa-times-circle" style="color:#dc3545"></i> Auto-follow up to 20 users/hr</li>
+          <li><i class="fa fa-times-circle" style="color:#dc3545"></i> Auto-Unfollow up to 20 users/hr</li>
+        </ul>
+        <div style="text-align:center">
+          <button class="btn btn-danger btn" type="button" data-toggle="modal" data-target="#confirm-delete">Unsubscribe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--==========================
+    Modal confirmation for unsubscribe
+    ============================-->
+  <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 style="color:black">Confirm Unsubscribe</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p style="color:black">Are you sure you want to unsubscribe?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+          <button type="button" class="btn btn-danger btn-ok" onclick="location.href='unsubscribePaypal'" data-dismiss="modal">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</html>

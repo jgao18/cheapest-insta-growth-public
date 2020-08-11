@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Cheapest Instagram Growth</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <!-- Favicons -->
+    <link href="img/favicon.png" rel="icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
+    <!-- Bootstrap CSS File -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Libraries CSS Files -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="lib/magnific-popup/magnific-popup.css" rel="stylesheet">
+    <!-- Main Stylesheet File -->
+    <link href="css/style-side.css" rel="stylesheet">
+  </head>
+
+  <div id="wrapper">
+
+    <div id="header">
+      <div class="container">
+        <% include partials/header-side.ejs %>
+      </div>
+    </div>
+
+    <div id="body">
+      <div class="section-bg">
+        <div class="section-header">
+          <h3 class="section-title">My Account</h3>
+          <span class="section-divider"></span>
+          <p class="section-description-side">Setup your Instagram credentials, configure your growth settings, and manage your CIG subscription below</p>
+        </div>
+      </div>
+
+      <% if (locals.user.subscription_status == "cancelled") { %>
+        <p style="text-align:center;color:red"><b>Your subscription has ended. <a href="subscribe"><u>Re-subscribe</u></a> to regain access to our features!</b></p>
+      <% } else if (locals.user.subscription_status == "expired-trial") { %>
+        <p style="text-align:center;color:red"><b>Your trial period has ended. <a href="subscribe"><u>Subscribe</u></a> to regain access to our features!</b></p>
+      <% } %>
+      <div class='row'>
+        <div class='column-left'>
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" data-tabs="tabs">
+            <a class="nav-link active" id="v-pills-insta-settings-tab" data-toggle="tab" href="#v-pills-insta-settings" role="tab" aria-controls="v-pills-insta-settings" aria-selected="false">Instagram Account Settings</a>
+            <a class="nav-link" id="v-pills-cig-sub-tab" data-toggle="tab" href="#v-pills-cig-sub" role="tab" aria-controls="v-pills-cig-sub" aria-selected="false">CIG Subscription</a>
+          </div>
+        </div>
+        <div class='column-right'>
+          <% include partials/profile-insta-form.ejs %>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <div class="row">
+          <% include partials/footer.ejs %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <% if (locals.welcome) { %>
+    <div class="modal fade" id="welcome" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 style="color:#5cb85c">Welcome to CIG!</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p style="color:black">Thanks for registering for CIG!<br/><br/>Enter your Instagram credentials here in your account page to start growing your account!<br/><br/>Enjoy your full-fledged trial for five days, then consider subscribing!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">Got it!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- JavaScript Libraries -->
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/jquery/jquery-migrate.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/wow/wow.min.js"></script>
+  <script src="lib/superfish/hoverIntent.js"></script>
+  <script src="lib/superfish/superfish.min.js"></script>
+  <script src="lib/magnific-popup/magnific-popup.min.js"></script>
+  <!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
+  <!-- Template Main Javascript File -->
+  <script src="js/main.js"></script>
+  <!-- Hashtags table -->
+  <script type="text/javascript">
+    $(window).on('load',function() {
+      $('#welcome').modal('show');
+    });
+
+    // Refresh Instagram login status periodically
+    function reloadStatus () {
+      $.ajax({
+              url: "updateInstagramAccountStatus",
+              type: 'post',
+              success: function(data) {
+                $('#instagramAccountStatus').html(data);
+              },
+              complete: function() {
+                setTimeout(reloadStatus, 5000);
+              }
+      });
+    }
+    reloadStatus();
+
+    $(document).ready(function() {
+      var actions = $("table td:last-child").html();
+
+      // Add row on add button click
+      $(document).on("click", ".add", function() {
+        var empty = false;
+        var input = $(this).parents("tr").find('input[type="text"]');
+        input.each(function() {
+          if(!$(this).val() || $(this)[0].value.length > 30 ) {
+            $(this).addClass("error");
+            empty = true;
+          } else {
+            $(this).removeClass("error");
+          }
+        });
+        $(this).parents("tr").find(".error").first().focus();
+        if(!empty) {
+          input.each(function() {
+            $(this).parent("td").html($(this).val());
+          });
+          $(this).parents("tr").find(".add, .edit").toggle();
+          $(".add-new").removeAttr("disabled");
+        }
+      });
+
+      // Edit row on edit button click
+      $(document).on("click", ".edit", function() {
+        console.log("edit clicked");
+        $(this).parents("tr").find("td:not(:last-child)").each(function() {
+          $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+        });
+
+        $(this).parents("tr").find(".add, .edit").toggle();
+        $(".add-new").attr("disabled", "disabled");
+      });
+
+      // Delete row on delete button click
+      $(document).on("click", ".delete", function() {
+        $(this).parents("tr").remove();
+        $(".add-new").removeAttr("disabled");
+      });
+
+      // Prevent enter from
+      $(window).keydown(function(event) {
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+      });
+    });
+  </script>
+
+</html>

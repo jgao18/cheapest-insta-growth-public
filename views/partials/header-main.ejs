@@ -1,0 +1,21 @@
+<div id="logo" class="pull-left">
+  <h1><a href="/" class="scrollto">CIG</a></h1>
+  <!-- Uncomment below if you prefer to use an image logo -->
+  <!-- <a href="#intro"><img src="img/logo.png" alt="" title=""></a> -->
+</div>
+<nav id="nav-menu-container">
+  <ul class="nav-menu">
+    <li class="menu-active"><a href="/">Home</a></li>
+    <li><a href="/#features">Features</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+    <li><a href="/#about">Our Story</a></li>
+    <% if (locals.user) { %>
+      <li><a><button type="button" onclick="location.href='profile';"  class="btn btn-primary">My Account</button></a></li>
+      <li><a><button type="button" onclick="location.href='logout';"  class="btn btn-primary">Logout</button></a></li>
+    <% } else { %>
+      <li><a><button type="button" onclick="location.href='register';"  class="btn btn-warning">Sign Up</button></a></li>
+      <li><a><button type="button" onclick="location.href='login';"  class="btn btn-warning">Log In</button></a></li>
+    <% } %>
+  </ul>
+</nav>
+<!-- #nav-menu-container -->

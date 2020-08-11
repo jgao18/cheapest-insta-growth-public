@@ -1,0 +1,10 @@
+USERS
+
+subscription_status: trial, basic, full, expired-trial, cancelled
+
+
+
+INSTAGRAM_ACCOUNTS
+
+login_status: none, invalid, success
+mode: off, like, follow, unfollow

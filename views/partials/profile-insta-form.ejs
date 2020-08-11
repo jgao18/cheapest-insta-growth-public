@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% var formState = "disabled";
+     var growthModeLikeState = "disabled";
+     var growthModeFollowState = "disabled";
+
+     if (locals.user.subscription_status == "basic" || locals.user.subscription_status == "full" || locals.user.subscription_status == "trial") {
+       formState = "enabled"
+
+       if (locals.user.subscription_status == "trial") {
+         growthModeLikeState = "enabled";
+         growthModeFollowState = "enabled";
+       } else if (locals.user.subscription_status == "basic") {
+         growthModeLikeState = "enabled";
+       } else if (locals.user.subscription_status == "full") {
+         growthModeLikeState = "enabled";
+         growthModeFollowState = "enabled";
+       }
+     }
+   %>
+
+  <div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-insta-settings" role="tabpanel" aria-labelledby="v-pills-insta-settings-tab">
+      <form id="profileForm" role="form">
+        <% if (locals.message) {
+          if (locals.message.includes("success")) { %>
+            <p id="notifyMessage" style="color:green;text-align:left;padding-left:30px"><b><%= locals.message %></b></p>
+          <% } else { %>
+            <p id="notifyMessage" style="color:red;text-align:left;padding-left:30px"><b><%= locals.message %></b></p>
+          <% } %>
+        <% } %>
+        <div class="form-row">
+          <% include profile-insta-account-status.ejs %>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <p><b>Instagram Username:</b>
+          </div>
+          <div class="form-group col-lg-6">
+            <% if (locals.instagramAccountData && locals.instagramAccountData.username) { %>
+              <input type="text" class="form-control" name="username" id="username" placeholder="Update Your Instagram Username" value=<%= locals.instagramAccountData.username %> <%= formState %> />
+            <% } else { %>
+              <input type="text" class="form-control" name="username" id="username" placeholder="Set Your Instagram Username" <%= formState %>/>
+            <% } %>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <p><b>Instagram Password:&nbsp;</b>
+          </div>
+          <div class="form-group col-lg-6">
+            <% if (locals.instagramAccountData && locals.instagramAccountData.password && locals.instagramAccountData.password == "set") { %>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Instagram Password Set!" <%= formState %>/>
+            <% } else { %>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Set Your Instagram Password" <%= formState %>/>
+            <% } %>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <p><b>Growth Mode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+          </div>
+          <div class="form-group col-lg-6">
+            <select class="form-control" name="mode" id="mode" <%= formState %>>
+              <% if (locals.instagramAccountData) {
+                if (locals.instagramAccountData.mode == "follow") { %>
+                  <option value="off" <%= growthModeLikeState %>>Off</option>
+                  <option value="like" <%= growthModeLikeState %>>Like</option>
+                  <option selected value="follow" <%= growthModeFollowState %>>Follow</option>
+                  <option value="unfollow" <%= growthModeFollowState %>>Unfollow</option>
+                <% } else if (locals.instagramAccountData.mode == "unfollow") { %>
+                  <option value="off" <%= growthModeLikeState %>>Off</option>
+                  <option value="like" <%= growthModeLikeState %>>Like</option>
+                  <option value="follow" <%= growthModeFollowState %>>Follow</option>
+                  <option selected value="unfollow" <%= growthModeFollowState %>>Unfollow</option>
+                <% } else if (locals.instagramAccountData.mode == "like") { %>
+                  <option value="off" <%= growthModeLikeState %>>Off</option>
+                  <option selected value="like" <%= growthModeLikeState %>>Like</option>
+                  <option value="follow" <%= growthModeFollowState %>>Follow</option>
+                  <option value="unfollow" <%= growthModeFollowState %>>Unfollow</option>
+                <% } else { %>
+                  <option selected value="off">Off</option>
+                  <option value="like" <%= growthModeLikeState %>>Like</option>
+                  <option value="follow" <%= growthModeFollowState %>>Follow</option>
+                  <option value="unfollow" <%= growthModeFollowState %>>Unfollow</option>
+                <% }
+              } else { %>
+                <option selected value="off" <%= growthModeLikeState %>>Off</option>
+                <option value="like" <%= growthModeLikeState %>>Like</option>
+                <option value="follow" <%= growthModeFollowState %>>Follow</option>
+                <option value="unfollow" <%= growthModeFollowState %>>Unfollow</option>
+              <% } %>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="container">
+            <div class="table-wrapper">
+              <table id="hashtagTable" class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Following Hashtags (5 Max)</th>
+                    <th>
+                      <div style="float:right;"><button type="button" class="btn btn-info btn-sm add-new" <%= formState %>><i class="fa fa-plus"></i> New</button></div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (locals.instagramAccountData && locals.instagramAccountData.hashtags) {
+                    for (var i = 0; i < locals.instagramAccountData.hashtags.length; i++) { %>
+                      <tr>
+                        <td><%= locals.instagramAccountData.hashtags[i] %></td>
+                        <td>
+                          <% if (formState == "enabled") { %>
+                            <a class="add" title="Add" ><img src="/icons/check.svg" style="width:15px;height:15px;" alt="confirm"></a>
+                            <a class="edit" title="Edit"><img src="/icons/pencil.svg" style="width:15px;height:15px;" alt="edit"></a>
+                            <a class="delete" title="Delete"><img src="/icons/trash.svg" style="width:15px;height:15px;" alt="delete"></a>
+                          <% } %>
+                        </td>
+                      </tr>
+                    <% }
+                  } else { %>
+                    <tr>
+                      <td>photography</td>
+                      <td>
+                        <% if (formState == "enabled") { %>
+                          <a class="add" title="Add"><img src="/icons/check.svg" style="width:15px;height:15px;" alt="confirm"></a>
+                          <a class="edit" title="Edit"><img src="/icons/pencil.svg" style="width:15px;height:15px;" alt="edit"></a>
+                          <a class="delete" title="Delete"><img src="/icons/trash.svg" style="width:15px;height:15px;" alt="delete"></a>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div style="padding-left:30%;padding-top:20px"><button class="btn btn-primary btn-lg" type="submit" <%= formState %>>Save</button></div>
+      </form>
+    </div>
+    <div class="tab-pane fade" id="v-pills-cig-sub" role="tabpanel" aria-labelledby="v-pills-cig-sub-tab">
+      <div class="form-row">
+        <!-- Billing status should check payment first, then free trial status -->
+        <p><b>Subscription Status:</b>
+          <% var subscriptionStatus;
+            if (locals.user.subscription_status == "full") {
+               subscriptionStatus = "Full Subscription Active!";
+            } else if (locals.user.subscription_status == "basic") {
+               subscriptionStatus = "Basic Subscription Active!";
+            } else if (locals.user.subscription_status == "trial") {
+               var currentDate = new Date();
+               var trialStartDate = new Date(locals.user.trial_start_date);
+               var timeDiff = Math.abs(currentDate.getTime() - trialStartDate.getTime());
+               var trialDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+               if (trialDays < 5) {
+                  var daysLeft = 5 - trialDays;
+                  subscriptionStatus = "Trial Mode - " + daysLeft + " Days Remaining"
+               } else { subscriptionStatus = "Trial Mode - 0 Days Remaining"; }
+            } else if (locals.user.subscription_status == "expired-trial") {
+               subscriptionStatus = "Trial Expired";
+            } else { // Cancelled
+              subscriptionStatus = "Subscription Cancelled";
+            } %>
+          <% if ( subscriptionStatus.includes("Trial") || subscriptionStatus.includes("Cancelled") ) { %>
+            <span style="color:#DF0101"><%= subscriptionStatus %>&nbsp;</span>
+            <button class="btn btn-success btn-sm" type="button" onclick="location.href='subscribe';">Subscribe!</button>
+          <% } else { %>
+            <span style="color:green"><%= subscriptionStatus %>&nbsp;</span>
+            <button class="btn btn-primary btn-sm" type="button" onclick="location.href='subscribe';">Manage Subscription</button>
+          <% } %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/jquery/jquery-migrate.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      //hang on event of form with id=myform
+      $("#profileForm").submit(function(e) {
+
+        //prevent Default functionality
+        e.preventDefault();
+
+        //get the action-url of the form
+        var actionurl = e.currentTarget.action;
+
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        var mode = document.getElementById('mode').value;
+
+        // Gets table data
+        var oTable = document.getElementById('hashtagTable');
+        var hashtags = [];
+        var rowLength = oTable.rows.length;
+
+        for (i = 1; i < rowLength; i++) {
+          var oCells = oTable.rows.item(i).cells;
+          var cellLength = oCells.length;
+          var cellVal = oCells.item(0).innerHTML;
+          if (!cellVal.includes('<input type="text" class="form-control"')) { hashtags.push(cellVal); }
+        }
+        if (hashtags.length > 5 ) { hashtags.length = 5; }
+        var profileData = { username: username, password: password, mode: mode, hashtags: hashtags}
+
+        $.ajax({
+          url: "updateInstagramAccount",
+          type: 'post',
+          data: profileData,
+          success: function(data) {
+            $('#v-pills-tabContent').html(data);
+          },
+        });
+
+      });
+
+      $("#notifyMessage").delay(2000).fadeOut(1000);
+    });
+
+    $(document).ready(function() {
+      var actions = $("table td:last-child").html();
+
+      // Append table with add row form on add new button click
+      $(".add-new").click(function() {
+        $(this).attr("disabled", "disabled");
+        var index = $("table tbody tr:last-child").index();
+        var row = '<tr>' +
+          '<td><input type="text" class="form-control"></td>' +
+          '<td>' + actions + '</td>' +
+          '</tr>';
+          $("table").append(row);
+        $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+      });
+    });
+
+  </script>
+
+</html>
